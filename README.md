@@ -77,7 +77,3 @@ This was built for a specific purpose, but there's a lot more that could be adde
 -   A calendar view.
 -   A waitlist system for full events.
 -   The big one: a QR code check-in system would be really cool.
-
-## License
-
-This was an educational project for me. Feel free to clone it, break it, and learn from it. No restrictions.
