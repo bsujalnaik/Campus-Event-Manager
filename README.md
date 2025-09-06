@@ -62,6 +62,23 @@ To make testing easier, I've pre-loaded the database with a bunch of sample even
 -   **ID:** `STU2024002`, **Name:** `James Wilson`
 -   **ID:** `STU2024003`, **Name:** `Sofia Martinez`
 
+## Screenshots
+
+Here's a quick look at the admin portal and the student mobile app in action:
+
+### Admin Portal
+![Admin Dashboard](screenshots/Admin1.png)
+*A peek at the admin dashboard with event overview.*
+
+### Student Mobile App
+Here are a few views from the student mobile app, showing event browsing, details, and registration.
+![Student Events List](screenshots/StudentPortal1.png)
+*The main event listing for students.*
+![Student Event Detail](screenshots/StudentPortal2.png)
+*Detailed view of a specific event.*
+![Student Registration Confirmation](screenshots/StudentPortal3.png)
+*After registering for an event.*
+
 ## If it breaks... (Troubleshooting)
 
 -   **"Port already in use" error?** Something else is running on port 3000. You can either find and kill that process or just change the port number at the bottom of `server.js`.
@@ -77,3 +94,7 @@ This was built for a specific purpose, but there's a lot more that could be adde
 -   A calendar view.
 -   A waitlist system for full events.
 -   The big one: a QR code check-in system would be really cool.
+
+## License
+
+This was an educational project for me. Feel free to clone it, break it, and learn from it. No restrictions.
