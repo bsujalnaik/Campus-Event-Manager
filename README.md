@@ -74,12 +74,12 @@ Here's a quick look at the admin portal and the responsive student app.
 The student portal is fully responsive and works on both desktop and mobile browsers.
 
 #### Mobile App View
-![Student Event List Mobile](screenshots/Mobile1.png)
-*Browsing available events on the mobile app.*
-![My Events Mobile](screenshots/Mobile2.png)
-*Viewing registered and attended events in the "My Events" section.*
-![Feedback Submission Mobile](screenshots/Mobile3.png)
-*Submitting feedback after an event.*
+<p align="center">
+  <img src="screenshots/Mobile1.png" alt="Student Event List Mobile" width="32%">
+  <img src="screenshots/Mobile2.png" alt="My Events Mobile" width="32%">
+  <img src="screenshots/Mobile3.png" alt="Feedback Submission Mobile" width="32%">
+</p>
+*Browsing available events, viewing registered events, and submitting feedback on the mobile app.*
 
 #### Desktop Browser View
 ![Student Events List Desktop](screenshots/StudentPortal1.png)
@@ -107,4 +107,4 @@ This was built for a specific purpose, but there's a lot more that could be adde
 
 ## License
 
-This was an educational project for me. Feel free to clone it, break it, and learn from it. No restrictions.
+This was an educational project for me. Feel free to clone it, break it, and learn from it. No restrictions
