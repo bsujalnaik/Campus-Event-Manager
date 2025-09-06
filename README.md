@@ -64,20 +64,30 @@ To make testing easier, I've pre-loaded the database with a bunch of sample even
 
 ## Screenshots
 
-Here's a quick look at the admin portal and the student mobile app in action:
+Here's a quick look at the admin portal and the responsive student app.
 
 ### Admin Portal
 ![Admin Dashboard](screenshots/Admin1.png)
 *A peek at the admin dashboard with event overview.*
 
-### Student Mobile App
-Here are a few views from the student mobile app, showing event browsing, details, and registration.
-![Student Events List](screenshots/StudentPortal1.png)
-*The main event listing for students.*
-![Student Event Detail](screenshots/StudentPortal2.png)
+### Student App (Responsive Design)
+The student portal is fully responsive and works on both desktop and mobile browsers.
+
+#### Desktop Browser View
+![Student Events List Desktop](screenshots/StudentPortal1.png)
+*The main event listing for students on a desktop browser.*
+![Student Event Detail Desktop](screenshots/StudentPortal2.png)
 *Detailed view of a specific event.*
-![Student Registration Confirmation](screenshots/StudentPortal3.png)
-*After registering for an event.*
+![Student Registration Confirmation Desktop](screenshots/StudentPortal3.png)
+*Confirmation after registering for an event.*
+
+#### Mobile App View
+![Student Event List Mobile](screenshots/Mobile1.png)
+*Browsing available events on the mobile app.*
+![My Events Mobile](screenshots/Mobile2.png)
+*Viewing registered and attended events in the "My Events" section.*
+![Feedback Submission Mobile](screenshots/Mobile3.png)
+*Submitting feedback after an event.*
 
 ## If it breaks... (Troubleshooting)
 
