@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Event Management - Admin Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #06b6d4;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --info: #0284c7;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .admin-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-primary);
+            border-right: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        }
+
+        .sidebar-brand h4 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .sidebar-brand i {
+            color: rgba(255, 255, 255, 0.9);
+            margin-right: 0.75rem;
+            font-size: 1.5rem;
+        }
+
+        .nav-modern {
+            padding: 1rem 0;
+        }
+
+        .nav-modern .nav-item {
+            margin: 0 1rem 0.25rem 1rem;
+        }
+
+        .nav-modern .nav-link {
+            color: var(--text-secondary) !important;
+            padding: 0.875rem 1rem;
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+            position: relative;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .nav-modern .nav-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--primary) !important;
+            transform: translateX(4px);
+        }
+
+        .nav-modern .nav-link.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white !important;
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-modern .nav-link i {
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-lg);
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-toggle {
+            background: var(--primary);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            padding: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-toggle:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        /* Cards */
+        .modern-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .modern-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .stat-card:hover::before {
+            transform: translate(20px, -20px) scale(1.1);
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-card p {
+            opacity: 0.9;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .stat-card i {
+            opacity: 0.8;
+            font-size: 2.5rem;
+        }
+
+        /* Buttons */
+        .btn-modern {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: white;
+            transition: all 0.2s ease;
+            text-transform: none;
+            letter-spacing: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-modern:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+            color: white;
+        }
+
+        .btn-modern:active {
+            transform: translateY(0);
+        }
+
+        .btn-modern i {
+            margin-right: 0.5rem;
+        }
+
+        /* Tables */
+        .table-container {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+        }
+
+        .table-modern {
+            margin: 0;
+            background: transparent;
+        }
+
+        .table-modern thead th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+            padding: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .table-modern tbody td {
+            border: none;
+            color: var(--text-secondary);
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .table-modern tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .table-modern tbody tr:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .table-modern tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Forms */
+        .form-modern {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .form-modern:focus {
+            background: var(--bg-primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .form-modern::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-label-modern {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        /* Badges */
+        .badge-modern {
+            border-radius: var(--radius-md);
+            padding: 0.375rem 0.75rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .badge-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .badge-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Modal */
+        .modal-modern .modal-content {
+            border: none;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            background: var(--bg-primary);
+        }
+
+        .modal-modern .modal-header {
+            border-bottom: 1px solid var(--border-light);
+            padding: 1.5rem;
+        }
+
+        .modal-modern .modal-title {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .modal-modern .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-modern .modal-footer {
+            border-top: 1px solid var(--border-light);
+            padding: 1.5rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Page Title for Mobile */
+        .mobile-section-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .mobile-section-card h4 {
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-section-card small {
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 280px;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .overlay.show {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .stat-card {
+                margin-bottom: 1rem;
+            }
+
+            .modern-card {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Animations */
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Loading States */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-light);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Utility Classes */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Enhanced stat card variants */
+        .stat-card.success {
+            background: linear-gradient(135deg, var(--success) 0%, #10b981 100%);
+        }
+
+        .stat-card.warning {
+            background: linear-gradient(135deg, var(--warning) 0%, #f59e0b 100%);
+        }
+
+        .stat-card.info {
+            background: linear-gradient(135deg, var(--info) 0%, var(--accent) 100%);
+        }
+
+        .stat-card.danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #ef4444 100%);
+        }
+
+        /* Enhanced hover effects */
+        .hover-lift {
+            transition: all 0.2s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Action buttons styling */
+        .btn-success-modern {
+            background: linear-gradient(135deg, var(--success) 0%, #10b981 100%);
+            border: none;
+            color: white;
+        }
+
+        .btn-warning-modern {
+            background: linear-gradient(135deg, var(--warning) 0%, #f59e0b 100%);
+            border: none;
+            color: white;
+        }
+
+        .btn-danger-modern {
+            background: linear-gradient(135deg, var(--danger) 0%, #ef4444 100%);
+            border: none;
+            color: white;
+        }
+
+        .btn-info-modern {
+            background: linear-gradient(135deg, var(--info) 0%, var(--accent) 100%);
+            border: none;
+            color: white;
+        }
+
+        /* Enhanced form styling */
+        .form-control {
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-select {
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Header -->
+    <div class="d-md-none mobile-header">
+        <div class="p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-calendar-alt me-2 float-animation text-primary" style="font-size: 1.5rem;"></i>
+                    <h4 class="mb-0 fw-bold text-primary">Event Manager</h4>
+                </div>
+                <button class="mobile-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Main Admin Container -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-calendar-alt float-animation"></i>
+                        <h4>Event Manager</h4>
+                    </div>
+                    <button class="btn btn-link text-white d-md-none p-0" onclick="closeSidebar()" style="font-size: 1.2rem;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="nav-modern">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="showSection('dashboard')">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('events')">
+                            <i class="fas fa-calendar-plus"></i>
+                            <span>Manage Events</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('registrations')">
+                            <i class="fas fa-users"></i>
+                            <span>Registrations</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('attendance')">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Attendance</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('reports')">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Mobile Section Header -->
+            <div class="d-md-none mobile-section-card mb-4">
+                <div class="p-3">
+                    <h4 id="mobile-section-title">Dashboard</h4>
+                    <small id="mobile-section-subtitle">Overview and statistics</small>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="slide-in">
+                <div class="section-header d-none d-md-block">
+                    <h2><i class="fas fa-tachometer-alt me-3"></i>Dashboard</h2>
+                    <p>Overview of your campus events and student engagement</p>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="stat-card hover-lift">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 id="total-events">0</h3>
+                                    <p>Total Events</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="stat-card success hover-lift">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 id="total-students">0</h3>
+                                    <p>Registered Students</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="stat-card info hover-lift">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 id="total-registrations">0</h3>
+                                    <p>Total Registrations</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="stat-card warning hover-lift">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 id="avg-rating">0.0</h3>
+                                    <p>Average Rating</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="modern-card">
+                            <div class="p-4">
+                                <h5 class="fw-bold mb-3">
+                                    <i class="fas fa-calendar-alt me-2 text-primary"></i>Recent Events
+                                </h5>
+                                <div id="recent-events" class="text-muted">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="loading-spinner"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="modern-card">
+                            <div class="p-4">
+                                <h5 class="fw-bold mb-3">
+                                    <i class="fas fa-trophy me-2 text-warning"></i>Top Students
+                                </h5>
+                                <div id="top-students" class="text-muted">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="loading-spinner"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events Section -->
+            <div id="events-section" style="display: none;" class="slide-in">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+                    <div class="section-header d-none d-md-block mb-3 mb-md-0">
+                        <h2><i class="fas fa-calendar-plus me-3"></i>Manage Events</h2>
+                        <p>Create, edit, and manage your campus events</p>
+                    </div>
+                    <button class="btn-modern" onclick="showEventModal()">
+                        <i class="fas fa-plus"></i>Create Event
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table-modern table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Location</th>
+                                    <th>Institute</th>
+                                    <th>Capacity</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="events-table">
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="loading-spinner"></div>
+                                        </div>
+                                        <p class="text-muted mt-2 mb-0">Loading events...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registrations Section -->
+            <div id="registrations-section" style="display: none;" class="slide-in">
+                <div class="section-header d-none d-md-block mb-4">
+                    <h2><i class="fas fa-users me-3"></i>Student Registrations</h2>
+                    <p>Manage and verify student event registrations</p>
+                </div>
+
+                <div class="modern-card mb-4">
+                    <div class="p-4">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+                            <div>
+                                <h5 class="mb-1 fw-bold">Student Registrations</h5>
+                                <small class="text-muted" id="registration-count">Loading...</small>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-5 mb-3 mb-md-0">
+                                <label for="event-filter" class="form-label fw-semibold">Filter by Event:</label>
+                                <select class="form-select" id="event-filter" onchange="filterRegistrationsByEvent()">
+                                    <option value="">All Events</option>
+                                </select>
+                            </div>
+                            <div class="col-md-7 d-flex align-items-end gap-2">
+                                <button type="button" class="btn btn-info-modern btn-sm" onclick="refreshEventFilter()" title="Refresh Event List">
+                                    <i class="fas fa-sync-alt me-1"></i>Refresh Events
+                                </button>
+                                <button type="button" class="btn btn-warning-modern btn-sm" onclick="clearEventFilter()">
+                                    <i class="fas fa-times me-1"></i>Clear Filter
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Bulk Actions Section -->
+                        <div id="bulk-actions" class="mb-3" style="display: none;">
+                            <div class="modern-card" style="background: var(--bg-tertiary);">
+                                <div class="p-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+                                    <div class="text-primary mb-2 mb-md-0">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <span id="selected-count">0</span> student(s) selected
+                                    </div>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <button type="button" class="btn btn-success-modern btn-sm" onclick="verifySelectedRegistrations()">
+                                            <i class="fas fa-check-circle me-1"></i>Verify Selected
+                                        </button>
+                                        <button type="button" class="btn btn-danger-modern btn-sm" onclick="deleteSelectedRegistrations()">
+                                            <i class="fas fa-trash me-1"></i>Delete Selected
+                                        </button>
+                                        <button type="button" class="btn btn-warning-modern btn-sm" onclick="clearSelection()">
+                                            <i class="fas fa-times me-1"></i>Clear Selection
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table-modern table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll()" title="Select All" class="form-check-input">
+                                    </th>
+                                    <th>Student Name</th>
+                                    <th>Student ID</th>
+                                    <th>Event Title</th>
+                                    <th>Event Date</th>
+                                    <th>Registered At</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="registrations-table">
+                                <tr>
+                                    <td colspan="8" class="text-center py-4">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="loading-spinner"></div>
+                                        </div>
+                                        <p class="text-muted mt-2 mb-0">Loading registrations...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Section -->
+            <div id="attendance-section" style="display: none;" class="slide-in">
+                <div class="section-header d-none d-md-block mb-4">
+                    <h2><i class="fas fa-check-circle me-3"></i>Attendance Management</h2>
+                    <p>Track and manage student attendance for events</p>
+                </div>
+
+                <div class="modern-card mb-4">
+                    <div class="p-4">
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="attendance-event-select" class="form-label fw-semibold">Select Event</label>
+                                <select class="form-select" id="attendance-event-select" onchange="loadEventAttendance()">
+                                    <option value="">Select an event to manage attendance</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end">
+                                <button class="btn btn-primary btn-sm me-2" onclick="loadEventAttendance()" id="refresh-attendance-btn" style="display: none;">
+                                    <i class="fas fa-sync-alt me-1"></i>Refresh
+                                </button>
+                                <div class="d-flex align-items-center me-2" id="auto-refresh-indicator" style="display: none;">
+                                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <small class="text-muted">Auto-refreshing...</small>
+                                </div>
+                                <div class="d-flex align-items-center" id="attendance-completion-indicator" style="display: none;">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <small class="text-success">All students marked!</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="p-4 border-bottom">
+                        <h5 class="mb-1 fw-bold">Student Attendance</h5>
+                        <small class="text-muted" id="attendance-event-info">Select an event to view students</small>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table-modern table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Student ID</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendance-table">
+                                <tr>
+                                    <td colspan="5" class="text-center py-4">
+                                        <p class="text-muted mb-0">Select an event to view attendance</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div id="reports-section" style="display: none;" class="slide-in">
+                <div class="section-header d-none d-md-block mb-4">
+                    <h2><i class="fas fa-chart-bar me-3"></i>Reports & Analytics</h2>
+                    <p>Comprehensive insights and analytics for your events</p>
+                </div>
+                
+                <!-- Analytics Overview Cards -->
+                <div class="row mb-4">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="stat-card hover-lift">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 id="total-events-count">0</h3>
+                                    <p>Total Events</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="stat-card success hover-lift">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 id="total-students-count">0</h3>
+                                    <p>Total Students</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="stat-card info hover-lift">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 id="total-registrations-count">0</h3>
+                                    <p>Total Registrations</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="stat-card warning hover-lift">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 id="attendance-rate">0%</h3>
+                                    <p>Attendance Rate</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Analytics Content -->
+                <div class="row">
+                    <!-- Top Active Students -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="modern-card">
+                            <div class="p-4 border-bottom">
+                                <h5 class="fw-bold"><i class="fas fa-trophy me-2 text-warning"></i>Top Active Students</h5>
+                            </div>
+                            <div class="p-4">
+                                <div id="top-active-students">
+                                    <div class="text-center py-3">
+                                        <div class="loading-spinner mb-2"></div>
+                                        <p class="text-muted mb-0">Loading top active students...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Type Analysis -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="modern-card">
+                            <div class="p-4 border-bottom">
+                                <h5 class="fw-bold"><i class="fas fa-chart-pie me-2 text-info"></i>Event Type Analysis</h5>
+                            </div>
+                            <div class="p-4">
+                                <div id="event-type-analysis">
+                                    <div class="text-center py-3">
+                                        <div class="loading-spinner mb-2"></div>
+                                        <p class="text-muted mb-0">Loading event type analysis...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Popularity Report -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="modern-card">
+                            <div class="p-4 border-bottom">
+                                <h5 class="fw-bold"><i class="fas fa-fire me-2 text-danger"></i>Event Popularity Report</h5>
+                            </div>
+                            <div class="p-4">
+                                <div id="event-popularity-report">
+                                    <div class="text-center py-3">
+                                        <div class="loading-spinner mb-2"></div>
+                                        <p class="text-muted mb-0">Loading event popularity data...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Student Participation -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="modern-card">
+                            <div class="p-4 border-bottom">
+                                <h5 class="fw-bold"><i class="fas fa-star me-2 text-success"></i>Top Student Participation</h5>
+                            </div>
+                            <div class="p-4">
+                                <div id="top-participation-report">
+                                    <div class="text-center py-3">
+                                        <div class="loading-spinner mb-2"></div>
+                                        <p class="text-muted mb-0">Loading participation data...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Individual Event Statistics -->
+                    <div class="col-12 mb-4">
+                        <div class="modern-card">
+                            <div class="p-4 border-bottom">
+                                <h5 class="fw-bold"><i class="fas fa-chart-bar me-2 text-primary"></i>Individual Event Statistics</h5>
+                            </div>
+                            <div class="p-4">
+                                <div class="row mb-3">
+                                    <div class="col-md-4 mb-3 mb-md-0">
+                                        <select class="form-select" id="report-event-select">
+                                            <option value="">Select an event for detailed analysis</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn-modern" onclick="loadEventStatistics()">
+                                            <i class="fas fa-search me-1"></i>Analyze Event
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="event-stats" class="mt-3">
+                                    <p class="text-muted">Select an event to view detailed statistics</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Event Modal -->
+    <div class="modal fade modal-modern" id="eventModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalTitle">Create Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="eventForm">
+                        <input type="hidden" id="eventId">
+                        <div class="mb-3">
+                            <label for="eventTitle" class="form-label fw-semibold">Event Title</label>
+                            <input type="text" class="form-control" id="eventTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventDescription" class="form-label fw-semibold">Description</label>
+                            <textarea class="form-control" id="eventDescription" rows="3"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="eventDate" class="form-label fw-semibold">Date</label>
+                                <input type="date" class="form-control" id="eventDate" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="eventTime" class="form-label fw-semibold">Time</label>
+                                <input type="time" class="form-control" id="eventTime" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventLocation" class="form-label fw-semibold">Location</label>
+                            <input type="text" class="form-control" id="eventLocation" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventInstitute" class="form-label fw-semibold">Institute</label>
+                            <select class="form-select" id="eventInstitute">
+                                <option value="">Select Institute</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventCapacity" class="form-label fw-semibold">Max Capacity</label>
+                            <input type="number" class="form-control" id="eventCapacity" min="1" value="100">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modern" onclick="saveEvent()">Save Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
