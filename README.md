@@ -17,7 +17,6 @@ The whole thing is built with real-time updates in mind. So when a student check
 ### The Student App
 - A clean list of all upcoming events.
 - Register for stuff with a single tap.
-- A simple "Check-in" button for when you get to the event.
 - Can leave a rating or feedback after.
 - Basic profile management.
 
